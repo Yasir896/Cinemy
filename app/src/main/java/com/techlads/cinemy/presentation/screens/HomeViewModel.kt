@@ -9,6 +9,7 @@ import androidx.paging.filter
 import com.techlads.cinemy.domain.model.HomeScreenState
 import com.techlads.cinemy.domain.usecases.GetNowPlayingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,13 +22,10 @@ class HomeViewModel @Inject constructor(private val useCase: GetNowPlayingMovies
         val moviesResponseState: State<HomeScreenState> = _moviesResponseState
 
         fun getNowPlayingMovies() {
+            _moviesResponseState.value = HomeScreenState(data = null, isLoading = true)
             viewModelScope.launch {
                 _moviesResponseState.value = HomeScreenState(
-                    data = useCase.invoke().map { pagingData ->
-                        pagingData.filter {
-                            it.id != 0
-                        }
-                    }.cachedIn(viewModelScope)
+                    data = useCase.invoke().cachedIn(viewModelScope)
                 )
             }
         }
