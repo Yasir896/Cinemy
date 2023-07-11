@@ -2,11 +2,11 @@
 
 A Jetpack Compose app that consume TMDB Api.
 
-Architecture
+## Architecture
 Built with MVVM clean code.
 
-Dependency Injection
+## Dependency Injection
 Hilt used for DI
 
-UI
+## UI
 Built with Jetpack Compose.
